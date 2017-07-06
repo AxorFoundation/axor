@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section resource="Workbench">
+	<section resource="ExternalProjectImportWizard">
+	</section>
+	<section resource="NewWizardAction">
+	</section>
+	<section resource="BasicNewProjectResourceWizard">
+	</section>
+</section>

@@ -1,0 +1,52 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.unite_investing.nav_sidebar.DepositEtherFrag">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="175dp">
+        <EditText
+            android:layout_width="163dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/etherInput"
+            android:layout_below="@+id/depositText"
+            android:layout_alignParentStart="true"
+            android:hint="Enter Amount"
+            android:layout_weight="0.03"
+            android:layout_gravity="center_vertical" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="deposit"
+            android:id="@+id/fragDeposit"
+            android:onClick="deposit"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.83"
+        android:gravity="center|bottom"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Deposit Ether"
+            android:id="@+id/depositText"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:layout_weight="0.15" />
+
+    </LinearLayout>
+
+</FrameLayout>

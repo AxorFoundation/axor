@@ -1,0 +1,55 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.unite_investing.nav_sidebar.WalletFrag">
+
+    <!-- TODO: Update blank fragment layout -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deposit Ether"
+        android:id="@+id/b_walletToDeposit"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="false"
+        android:onClick="toEtherFAQ"
+        android:layout_gravity="right|top"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp" />
+
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/qrcode" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1J2GFrKZcS3mwbe7Vg8VUDfxF9ZzKz2Ci3"
+        android:id="@+id/textView4"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/button3"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="40dp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/curEther"
+        android:layout_alignBottom="@+id/b_walletToDeposit"
+        android:layout_alignEnd="@+id/textView4"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal|left|top"
+        android:layout_marginLeft="30dp" />
+
+</FrameLayout>

@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">AXOR</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="start">Start</string>
+    <string name="appName">UniteInvesting</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_portfolio">Portfolio</string>
+    <string name="portfolio">Portfolio</string>
+    <string name="buyButton">Market</string>
+    <string name="title_activity_stock_shop">StockShop</string>
+    <string name="AboutUs">About Us: Our mission is to provide a platform to help the worlds unbanked save and invest in global markets.</string>
+    <string-array name="invest_types">
+        <item>Long</item>
+        <item>Short</item>
+        <item>Long (hold)</item>
+        <item>Short (hold)</item>
+    </string-array>
+    <string-array name="starter_stocks">
+        <item>GC=F</item>
+        <item>SI=F</item>
+        <item>PL=F</item>
+        <item>HG=F</item>
+        <item>CL=F</item>
+        <item>HO=F</item>
+        <item>NG=F</item>
+        <item>RB=F</item>
+        <item>BZ=F</item>
+        <item>B0=F</item>
+        <item>C=F</item>
+        <item>O=F</item>
+        <item>KW=F</item>
+        <item>RR=F</item>
+        <item>SM=F</item>
+        <item>BO=F</item>
+        <item>S=F</item>
+        <item>FC=F</item>
+        <item>LH=F</item>
+        <item>LC=F</item>
+        <item>CC=F</item>
+        <item>KC=F</item>
+        <item>CT=F</item>
+        <item>LB=F</item>
+        <item>OJ=F</item>
+        <item>SB=F</item>
+        <item>ZG=F</item>
+        <item>ZI=F</item>
+        <item>PA=F</item>
+    </string-array>
+
+    <string-array name="sideBar">
+        <item>Wallet</item>
+        <item>Porfolio</item>
+        <item>Market</item>
+    </string-array>
+    <string name="title_activity_navigation">Navigation</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

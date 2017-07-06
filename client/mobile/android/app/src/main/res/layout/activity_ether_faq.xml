@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="How to Deposit Ether"
+        android:id="@+id/textView6"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:layout_weight="0.15" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <EditText
+        android:layout_width="163dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/inputAmt"
+        android:layout_below="@+id/inputAmt"
+        android:layout_alignParentStart="true"
+        android:hint="Deposit"
+        android:layout_weight="0.03" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="deposit"
+        android:id="@+id/deposit"
+        android:onClick="deposit"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_gravity="right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.83"
+        android:gravity="center|bottom"
+        android:orientation="vertical" >
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:id="@+id/b_walletToDeposit"
+        android:layout_gravity="center_horizontal|bottom"
+        android:onClick="toWallet" />
+    </LinearLayout>
+</LinearLayout>
