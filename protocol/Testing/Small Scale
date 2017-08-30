@@ -1,0 +1,26 @@
+using System;
+
+using NUnit.Framework;
+
+using Xamarin.UITest;
+
+namespace InvestmentDataSampleApp.UITests
+{
+	public abstract class BaseTest
+	{
+		protected IApp App;
+		protected Platform Platform;
+
+		protected OpportunitiesPage OpportunitiesPage;
+		protected AddOpportunityPage AddOpportunityPage;
+		protected OpportunityDetailPage OpportunityDetailPage;
+
+		protected BaseTest(Platform platform)
+		{
+			Platform = platform;
+		}
+
+		[SetUp]
+		public virtual void TestSetup()
+		{
+			App = AppInitializer.StartApp(Platform);
