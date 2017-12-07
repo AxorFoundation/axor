@@ -1,5 +1,3 @@
-{% include mathjax.html %}
-
 Copyright (c) 2016-17, Axor Foundation
 ======================================
 
@@ -11,7 +9,7 @@ Objective
 
 Create a protocol for axors, which are smart contracts on an Ethereum-like blockchain which each track an unambiguously defined price. An example of a price definition for an individual axor might be "the latest Zillow zestimate of house at address xyz." Axors have two sets of parties -- one set that buys the positive side of the axor (a paxor), and one that buys the negative side of the axor (naxor). The cryptocurrency used to make the transactions is called axo. If party A sends *L*<sub>*n* − 1</sub> axos to a paxor on a given axor, and likewise party B sends *S*<sub>*n* − 1</sub> axo to the naxor on the same axor as party A, then after some time a price update occurs, changing the price of the axor from *P*<sub>*n* − 1</sub> to *P*<sub>*n*</sub>, party A should be able to receive, if desired, after one timestep:
 
-$$L\_n = \\frac{P\_n}{P\_{n-1}} \* L\_{n-1}$$
+![L\_n = \\frac{P\_n}{P\_{n-1}} \* L\_{n-1}$$](https://latex.codecogs.com/svg.latex?1%2Bsin%28mc%5E2%29%0D%0A)
  Where the current price 0 &lt; =*P*<sub>*n*</sub> &lt; =2 \* *P*<sub>*n* − 1</sub>.
 
 In Appendix A, we derive the formula for the updated short balance *s*<sub>*n*</sub>:
