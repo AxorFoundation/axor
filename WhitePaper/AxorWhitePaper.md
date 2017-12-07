@@ -1,3 +1,5 @@
+{% include mathjax.html %}
+
 Copyright (c) 2016-17, Axor Foundation
 ======================================
 
