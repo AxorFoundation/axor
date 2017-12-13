@@ -1,4 +1,6 @@
-# The Axor Foundation is a non-profit entity whose mission is to develop and promote the Axor Smart Contract Protocol. 
+# The Axor Smart Contract Protocol 
+
+The Axor Foundation is a non-profit entity whose mission is to develop and promote the Axor Smart Contract Protocol. 
 
 The Axor smart contract protocol is an application programming interface (API) which defines how to create smart contracts available in a peer-to-peer decentralized network which will allow people to instantiate axors. An axor is a smart contract which is tied to an unambiguous price definition (in text form, specified when the axor is created). It is only tied to that price in the sense that it stores the textual price definition in the smart contract’s instantiated object. To actually have the axor follow the price, third party oracles must send messages which are updates to the axor with the price. The axor does not represent any ownership in the item priced. Instead it is a smart contract to which peers can deposit tokens (called axo) and then withdraw more or fewer axos depending on changes to the price.
 
