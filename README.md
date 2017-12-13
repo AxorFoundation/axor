@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-The Axor Foundation is a non-profit entity whose mission is to develop and promote the Axor Smart Contract Protocol. 
+# The Axor Foundation is a non-profit entity whose mission is to develop and promote the Axor Smart Contract Protocol. 
 
 The Axor smart contract protocol is an application programming interface (API) which defines how to create smart contracts available in a peer-to-peer decentralized network which will allow people to instantiate axors. An axor is a smart contract which is tied to an unambiguous price definition (in text form, specified when the axor is created). It is only tied to that price in the sense that it stores the textual price definition in the smart contract’s instantiated object. To actually have the axor follow the price, third party oracles must send messages which are updates to the axor with the price. The axor does not represent any ownership in the item priced. Instead it is a smart contract to which peers can deposit tokens (called axo) and then withdraw more or fewer axos depending on changes to the price.
 
@@ -13,42 +12,3 @@ The axo token is not a marketable currency or asset; instead it acts as a point 
 3.	If we do become aware of a listing of axo on an exchange we will send a cease and desist e-mail or letter and also notify the appropriate jurisdiction’s legislature about the listing. 
 
 Because of the above marketing prohibitions, the axo token functions more like in-game money such as found in Eve Online, World of Warcraft, etc. The companies providing these games have also made efforts to prevent exchanges from listing in-game token so as to prevent in-game use of the token from being regulated as financial transactions. It seems that these game publishers have largely been successful in their efforts to do so. 
-=======
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/AxorFoundation/axor/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/AxorFoundation/axor/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
->>>>>>> f20e311b206802ed816e1c876269364f742c88dd
