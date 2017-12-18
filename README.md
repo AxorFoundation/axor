@@ -1,6 +1,6 @@
 # The Axor Smart Contract Protocol 
 
-  * Please see the [license](License.md) for the contents of this repository.
+  * Please see the [license](LICENSE.md) for the contents of this repository.
   * See the [white paper](WhitePaper/AxorWhitePaper.html) for technical details.
 
 The Axor Foundation is a non-profit entity whose mission is to develop and promote the Axor Smart Contract Protocol. 
