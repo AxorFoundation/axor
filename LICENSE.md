@@ -50,7 +50,7 @@ Application, but excluding the System Libraries of the Combined Work.
 
 "axo" is the token or cryptocurrency which is used to track the 
 value of positions taken in "axors," and can also be the token 
-given to miners in oracles in any blockchain which incorporates 
+given to miners or oracles in any blockchain which incorporates 
 this licensed software in any way.
 
 "axor" is any smart contract which uses any code or derivitive or
