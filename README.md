@@ -1,3 +1,5 @@
+![The Axor log](img/axor_logo.png)
+
 # The Axor Smart Contract Protocol 
 
   * Please see the [license](LICENSE.md) for the contents of this repository.
