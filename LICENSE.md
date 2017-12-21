@@ -182,4 +182,6 @@ tracked in any block-chain which uses any part of the source code
 in this repository or any artifacts thereof (such as binaries 
 or derivative software) in exchange for cryptocurrency or 
 fiat currency. These sale constraints may be rescinded at any time
-at the sole discretion of the Axor Foundation.
+at the sole discretion of the Axor Foundation. The authors 
+contributing to this project so agree that this sale restriction
+can be rescinded at any time.
