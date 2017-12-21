@@ -184,4 +184,5 @@ or derivative software) in exchange for cryptocurrency or
 fiat currency. These sale constraints may be rescinded at any time
 at the sole discretion of the Axor Foundation. Any authors 
 contributing to this project so agree that this sale restriction
-can be rescinded at any time.
+can be rescinded at any time at the sole discretion of the 
+Axor Foundation.
