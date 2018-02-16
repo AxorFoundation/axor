@@ -2,10 +2,6 @@
 title: "Axor White Paper"
 author: "Nathaniel Powell"
 date: "August 29, 2016"
-output:
-  html_document: default
-  pdf_document: default
-  word_document: default
 ---
 
 # Copyright (c) 2016-17, Axor Foundation
@@ -13,32 +9,58 @@ output:
 
 ##Objective
 
-Create a protocol for axors, which are smart contracts on an Ethereum-like blockchain which each track an unambiguously defined price. An example of a price definition for an individual axor might be "the latest Zillow zestimate of house at address xyz." Axors have two sets of parties -- one set that buys the positive side of the axor (a paxor), and one that buys the negative side of the axor (naxors). The cryptocurrency used to make the transactions is called axo. If party A sends $L_{n-1}$ axos to a paxor on a given axor, and likewise party B sends $S_{n-1}$ axo to the naxor on the same axor as party A, then after some time a price update occurs, changing the price of the axor from $P_{n-1}$ to $P_n$, party A should be able to receive, if desired:
+Create a protocol for axors, which are smart contracts on an Ethereum-like blockchain which each track an unambiguously defined price. An example of a price definition for an individual axor might be "the latest Zillow zestimate of house at address xyz." Axors have two sets of parties -- one set that buys the positive side of the axor (a paxor), and one that buys the negative side of the axor (naxor). The cryptocurrency used to make the transactions is called axo. If party A sends $L_{n-1}$ axos to a paxor on a given axor, and likewise party B sends $S_{n-1}$ axo to the naxor on the same axor as party A, then after some time a price update occurs, changing the price of the axor from $P_{n-1}$ to $P_n$, party A should be able to receive, if desired, after one timestep:
 
-$$L_1 = \frac{P_1}{P_0} * L_0$$
+$$L_n = \frac{P_n}{P_{n-1}} * L_{n-1}$$
+Where the current price $0 <= P_n <= 2*P_{n-1}$.
 
-In Appendix A, we derive the formula for the updated short balance $S_n$:
+In Appendix A, we derive the formula for the updated short balance $s_n$:
 
-$$S_n = (2-\frac{P_n}{P_{n-1}})*S_{n-1}$$
+$$s_n = (2-\frac{P_n}{P_{n-1}})*S_{n-1}$$
 
-Both of the above formulas are valid in the range:
+Both of the above formulas are valid in the range for any single timestep:
 
 $$0 <= P_n <= 2*P_{n-1}$$
 
+###Objective Implications Analysis
+
+Similar relations hold true for an axor which has multiple paxors:
+
+$$\sum\limits_{i=1}^k L_{i,n} = \frac{P_n}{P_{n-1}}*\sum\limits_{i=1}^k L_{i,n-1}$$
+
+and multiple naxors:
+
+$$\sum\limits_{i=1}^k S_{i,n} = \frac{P_n}{P_{n-1}}*\sum\limits_{i=1}^k S_{i,n-1}$$
+
+In Appendix B, we show that
+
+$$L_n = \frac{P_n}{P_0}*L_0$$
+
+Assuming that for all $n \in (0, n)$, $0 <= P_n <= 2*P_{n-1}$.
+
+There is no known closed form for $s_n$ in terms of $s_0$, the initial balance. We only have the recurrent relation defined above. 
 
 
-To extend this analysis to an axor with many naxors and paxors, then we start again with the assumption that:
+##Naive Contract
 
-$$\sum\frac{dL_i'}{dP'} = -\sum\frac{dS_i'}{dP'}$$
+If party A wants to buy into a paxor on an axor x which tracks price y, and party B wants to buy into a naxor on X, then one naïve contract (NC) would be one where A and B deposit an equal amount into the NC. Then when some deadline is reached, A and B are paid proportional to the change in y from the time the contract was entered until the deadline. 
 
-and 
+For example, suppose A and B each send 100 axos to x, and then y increases 10% at the deadline. Then the NC would pay A 110, and B 90. 
+This contract is based on one described in the Ethereum White Paper. My disclaimer is that I'm not labeling this contract as naïve because I think Vitalik Buterin was naive in proposing it; rather, I'm labeling it naive for the purpose of enabling users in the main use case, which is to allow the user to buy into a paxor and have their paxor axo balance increase or decrease according proportional to changes in price y.
 
-$$\frac{d}{dP'}\sum(\frac{P'}{P_L_i} * L_i) = -\frac{d}{dP'}\sum(1-\frac{P'}{P_S_i}*S_i)$$
+###Problems with the Naive Contract (NC)
 
-and
+The first problem is: what happens if S goes up more than 100%? if the price went up 150%, for example, A should receive 250. However, NC will have insufficient funds to pay A 250, as only 200 were originally deposited.
 
-$$\sum\frac{L_i}{P_L_i} = \sum\frac{S_i}{P_S_i}$$
-(Again excluding the naxors that have gone to zero in value).
+The other problem with NC is usability. If your goal is to hold your side of the contract for a long time, having a deadline means that the user (or at least the app) must remember to take the cryptocurrency received at the deadline, and then put it back in a new contract. There are many opportunities for error in this process, so it is not an experience to which I would like to subject our users. Their exposure to the price represented by the contract should last for years, if desired. 
+
+##Long Term Contract (LTC)
+
+I propose a long term contract (LTC) as one similar in some ways to the NC, but without a deadline at all. Instead, the contract allow many people to take the positive (paxor) and negative (naxor) side of the axor, and the axor contract will make appropriate adjustments over time to keep the paxor and naxor positions balanced in terms of liabilities, which are the amounts due to the contract parties at any given time. 
+
+### Rebalancing the LTC
+
+After each of the n timesteps, the naxors and paxors must be rebalanced; this is so that as long as the price does not double within a single timestep, the paxors will be able to pay out their full value
 
 It should be possible to keep the naxors and paxors balanced using the following actions:
 
@@ -48,33 +70,17 @@ It should be possible to keep the naxors and paxors balanced using the following
   
 We will simulate and experiment to understand what combination of the above strategies will optimize the amount of axos placed in an axor over time as the price, the naxors, and the paxors change over time. 
 
-=========================
-
-$$S_n = (1-\frac{P_n}{P_0})*S_0$$
-
-
-##Naïve Contract
-
-If party A wants to buy into a paxor on an axor x which tracks price y, and party B wants to buy into a naxor on X, then one naïve contract (NC) would be one where A and B deposit an equal amount into the NC. Then when some deadline is reached, A and B are paid proportional to the change in y from the time the contract was entered until the deadline. 
-
-For example, suppose A and B each send 100 axos to x, and then y increases 10% at the deadline. Then the NC would pay A 110, and B 90. 
-This contract is based on one described in the Ethereum White Paper. My disclaimer is that I’m not labeling this contract as naïve because I think Vitalik Buterin was naïve in proposing it – rather, I’m labeling it naïve for the purpose of enabling users in the main use case for the app – which is to allow the user to buy into a paxor and have their paxor axo balance increase or decrease according to y.
-
-###Problems with the Naïve Contract (NC)
-
-The first problem is: what happens if S goes up more than 100%? if the price went up 150%, for example, A should receive 250. However, NC will have insufficient funds to pay A 250, as only 200 were originally deposited.
-
-The other problem with NC is usability. If your goal is to hold your side of the contract for a long time, having a deadline means that the user (or at least the app) must remember to take the cryptocurrency received at the deadline, and then put it back in a new contract. There are many opportunities for error in this process, so it is not an experience to which I would like to subject our users. Their exposure to the price represented by the contract should last for years, if desired. 
-
-##Long Term Contract (LTC)
-
-I propose a long term contract (LTC) as one similar in some ways to the NC, but without a deadline at all. Instead, the contract will make appropriate adjustments over time to keep the long and short positions balanced in terms of liabilities, which are the amounts due to the contract parties at any given time. 
+### Offer Buckets
 
 You can think of the contract as the following buckets of cryptocurrencies:
 1. Long positions
 1. Short positions
 1. Long offers
 1. Short offers
+
+Offers are submitted orders which have not yet been fully processed into a position, or also positions which have been kicked out because of an insufficient fee offer to stay. (More on fees later).
+
+###LTC Example
 
 Suppose that the contract is newly created at time T and is therefore empty of currency. Suppose that some parties want to take the long position on the security in the amount of 110; they will submit an offer and 110 will go into the long offers bucket. Party A may cancel their order at any time and receive their currency back. Suppose party B wants to take the short position in the amount of 100; they will submit an offer and 100 will go into the short offers bucket. Here is a table showing the status of the contract:
 
@@ -126,23 +132,16 @@ All of the above analysis holds true if there are multiple parties represented i
 
 In summary, the current balance of the long and short positions are maintained as equal every time axor's price is updated. This will be the behavior for the initial version of the axor protocol. A subsequent version may introduce leverage, which will mean the ratio between the long and short balances will be determined by the leverage ratio, but this is out of scope for this whitepaper at this time. 
 
-### Formula for Total Long Balances
-
-The formula for the balance owed a long position for a current price $0 <= P_n <= 2*P_{n-1}$ in terms of $L_0,P_0$ is, assuming that for all $n \in (0, n)$, $0 <= P_n <= 2*P_{n-1}$:
-
-$$L_n = \frac{P_n}{P_0}*L_0$$
-
-The proof for this formula is in Appendix B. 
 
 ### Formula for Total Short Balances
 
 The formula for the balance owed a short position for a current price $0 <= P_{n+1} <= 2*P_n$ and a strike price $P_n > 0$ is:
 
-$$S_{n} = (1 + \frac{P_{n-1} - P_{n}}{P_{n-1}}) * S_n$$
+$$S_{n} = (1 + \frac{P_{n-1} - P_{n}}{P_{n-1}}) * s_n$$
 
-$P_{n+1}$ is the current price of the underlying security, and $S_n$ is the balance of the short positoin at the time of the last price update, and $S_{n+1}$ is the current balance owed to the short position holder. $P_n$ is the current strike price of the short position. If we rewrite the above equation in terms of $S_0$ and $P_0$, we have:
+$P_{n+1}$ is the current price of the underlying security, and $s_n$ is the balance of the short positoin at the time of the last price update, and $S_{n+1}$ is the current balance owed to the short position holder. $P_n$ is the current strike price of the short position. If we rewrite the above equation in terms of $s_0$ and $P_0$, we have:
 
-$$S_n = \product_n{(1 + \frac{P_{n-1} - P_{n}}{P_{n-1}})}*S_0
+$$s_n = \product_n{(1 + \frac{P_{n-1} - P_{n}}{P_{n-1}})}*s_0
 
 Because the strike prices are continually updated as the balance is updated, the short position has a different value curve with respect to the original price $P_0$ at which the short position was entered and the price history than a for a contract for different (CFD) short position. As the price continually increases with multiple updates, the short position loses value at a smaller rate than it would if the strike price remained the same. 
 
@@ -247,26 +246,13 @@ Please note that I have simplified the above analysis by ignoring differences in
 
 ### Axors with Many Naxors and Paxors
 
-To extend this analysis to an axor with many naxors and paxors, then we start again with the assumption that:
-
-$$\sum\frac{dL_i'}{dP'} = -\sum\frac{dS_i'}{dP'}$$
-
-and 
-
-$$\frac{d}{dP'}\sum(\frac{P'}{P_L_i} * L_i) = -\frac{d}{dP'}\sum(1-\frac{P'}{P_S_i}*S_i)$$
-
-and
-
-$$\sum\frac{L_i}{P_L_i} = \sum\frac{S_i}{P_S_i}$$
-(Again excluding the naxors that have gone to zero in value).
-
 It should be possible to keep the naxors and paxors balanced using the following actions:
 
 1. Moving paxors to and from offer bucket (similarly for naxors)
 1. Changing the naxors' strike price when needed
   1. (We don't want to change the paxors' strike prices, as our paxor owners are our ultimate end users -- our naxor owners are more like market makers, so it should be more acceptable to have a little more complicated behavior)
   
-We will simulate and experiment to understand what combination of the above strategies will optimize the amount of axos placed in an axor over time as the price, the naxors, and the paxors change over time. 
+As part of of our ongoing research, we will simulate and experiment to understand what combination of the above strategies will optimize the amount of axos placed in an axor over time as the price, the naxors, and the paxors change over time. 
 
 #### Examples
 
@@ -327,7 +313,7 @@ TODO: define the weighted median price
 1. Rank the blocks according to how many median or most frequent prices the block matches. 
 1. Then, use the weighted median or most axo weight price among the blocks which are tied for first place. 
 
-\# number 3 has the advantage of trusting the blocks with the best overall accuracy on the block with determining the transactions. 
+\#3 has the advantage of trusting the blocks with the best overall accuracy on the block with determining the transactions. 
 
 #### Axori Mining Parameters
 
@@ -374,22 +360,22 @@ $$\frac{d}{dP}L = \frac{L_n - L_{n-1}}{P_n-P_{n-1}} = \frac{\frac{P_n}{P_{n-1}}*
 
 Likewise,
 
-$$-\frac{dS}{dP} = -\frac{d}{dP}S = -\frac{S_n-S_{n-1}}{P_n-P_{n-1}} = \frac{L_{n-1} * (\frac{P_n}{P_{n-1}} - 1)}{P_n-P_{n-1}}$$
+$$-\frac{dS}{dP} = -\frac{d}{dP}S = -\frac{s_n-S_{n-1}}{P_n-P_{n-1}} = \frac{L_{n-1} * (\frac{P_n}{P_{n-1}} - 1)}{P_n-P_{n-1}}$$
 The $P_n-P_{n-1}$ terms cancel, leaving us with:
 
-$$S_{n-1}-S_n = L_{n-1} * (\frac{P_n}{P_{n-1}} - 1)$$
+$$S_{n-1}-s_n = L_{n-1} * (\frac{P_n}{P_{n-1}} - 1)$$
 
 Since we are assuming that the long and short positions were balanced (equal) at the last timestep $n-1$, this simplifies to:
 
-$$S_n = S_{n-1} - S_{n-1}*(\frac{P_n}{P_{n-1}}-1) = S_{n-1} * (1 - (\frac{P_n}{P_{n-1}}-1)) = S_{n-1}*(2 - \frac{P_n}{P_{n-1})$$
+$$s_n = S_{n-1} - S_{n-1}*(\frac{P_n}{P_{n-1}}-1) = S_{n-1} * (1 - (\frac{P_n}{P_{n-1}}-1)) = S_{n-1}*(2 - \frac{P_n}{P_{n-1}})$$
 
 And we conclude:
 
-$$S_n = (2-\frac{P_n}{P_{n-1}})*S_{n-1}$$
+$$s_n = (2-\frac{P_n}{P_{n-1}})*S_{n-1}$$
 Where:
 $$0 <= P_n <= 2*P_{n-1}$$
 
-## Appendix B: Proof for Formula of $L_n$ in terms of $L_0,P_0,P_n$
+## Appendix B: Formula of $L_n$ in terms of $L_0$
 
 
 $$L_{n} = \frac{P_{n}}{P_{n-1}}*L_{n-1}$$
@@ -409,4 +395,87 @@ And therefore by induction:
 
 $$L_n = \frac{P_n}{P_0}*L_0$$
 
-Which fulfills our design requirement articulated at the beginning.
+Which fulfills our design requirement articulated at the beginning, with one caveat -- this formula assumes that there have been no rebalances that have affected our balance.
+
+## Appendix C: $s_n$ in terms of $s_0$
+
+From Appendix A, 
+
+$$s_n = (2-\frac{P_n}{P_{n-1}})S_{n-1}$$
+$$0 <= P_n <= 2P_{n-1}$$
+
+
+If we convert this recursive formula into an iterative product begining with $s_0$, it is:
+
+$$s_n = s_0 \prod\limits_{i=1}^n (2-\frac{P_n}{P_{n-1}})$$
+
+##Example Scenario: Price Decreases Linearly to Zero
+
+To get an idea of how this recursive function operates, suppose that between timestep 0 and timestep n, the price decreases linearly down to 0 from its starting price $P_0$. We can insert this hypothetical simple example into the above formula:
+
+$$s_n = s_0 \prod\limits_{i=1}^n (2-\frac{P_{n-1} - \frac{P_0}{n}}{P_{n-1}})$$
+and
+$$s_n = s_0 \prod\limits_{i=1}^n (1 + \frac{P_0}{nP_{n-1}})$$
+
+We can substitute in $P_{n-1} = P_0-(i-1)\frac{P_0}{n}$
+
+$$s_n = s_0 \prod\limits_{i=1}^n (1 + \frac{P_0}{n(P_0-(i-1)\frac{P_0}{n})})$$
+
+and 
+
+$$s_n = s_0 \prod\limits_{i=1}^n (1 + \frac{P_0}{nP_0-(i-1)P_0)})$$
+
+and 
+
+$$s_n = s_0 \prod\limits_{i=1}^n (1 + \frac{P_0}{(n-i+1)P_0})$$
+
+and 
+
+$$s_n = s_0 \prod\limits_{i=1}^n (1 + \frac{1}{(n-i+1)})$$
+$$ = s_0 \prod\limits_{i=1}^n (\frac{n-i+2}{(n-i+1)})$$
+We can designate $s_{i,n} to be:
+
+$$s_{n,i} = s_0 \prod\limits_{k=1}^i (\frac{n-k+2}{(n-k+1)})$$
+Using factorials we can rewrite this as:
+
+$$s_{n,i} = s_0 \frac{\frac{(n+1)!}{(n-i+1)!}}{\frac{n!}{(n-i)!}}$$
+and 
+
+$$s_{n,i} = s_0 \frac{(n+1)!(n-i)!}{n!(n-i+1)!}$$
+and 
+
+$$s_{n,i} = s_0 \frac{(n+1)}{(n-i+1)}$$
+
+Again in this toy example, how does the value function derived above compare with the more traditional short value function, with the same imaginary linear price curve from $P_0$ to 0 at timestep n. In that case $s_n = 2S_0$, and the values in between are linear interpolations between $s_0$ and $s_n$. 
+
+So, the traditional value function is:
+
+$$s_{n,i} = s_0(1 + \frac{i}{n})$$
+
+To compare this with the above derived axor short value function, we take the difference:
+
+$$s_0 \frac{(n+1)}{(n-i+1)} - s_0(1 + \frac{i}{n})$$
+$$ = s_0(\frac{(n+1)}{(n-i+1)} - \frac{n+i}{n})$$
+To focus on the question of when this difference is negative or positive, we simplify the expression inside the parentheses, since $s_0$ is always positive:
+
+$$ = \frac{n+1}{n-i+1} - \frac{(1+\frac{i}{n})(n-i+1)}{n-i+1})$$
+$$ = \frac{n+1-(1+\frac{i}{n})(n-i+1)}{n-i+1}$$
+$$ = \frac{n+1-(n-i+1 + i - \frac{i^2}{n} + \frac{i}{n})}{n-i+1}$$
+$$ = \frac{n+1-n+i-1 - i + \frac{i^2}{n} - \frac{i}{n}}{n-i+1}$$
+$$ = \frac{i^2 - i}{n(n-i+1)}$$
+Since n and i are defined as positive integers, with $n \geqslant i$, 
+
+$$\frac{i^2 - i}{n(n-i+1)} \geqslant 0$$
+
+Also, when $i=1$, the difference between axor and traditional short value is 0. This means that after the first timestep they are exactly the same. However, when $i > 1$, the difference is always positive, so when the price is going down in a linear way as in this scenario, it is always advantageous to hold a naxor when compared to a traditional short sale, after the first timestep. 
+
+##Example Scenario: Price Doubles in Straight Line
+
+##Arbitrary Price Movements
+
+So we've shown that the axor short balance is always better than a traditional short balance whether the price goes up and down in a straight line, but is it possible to prove that we are better off than with a traditional short for non-linear, arbitrary price movements between $p_0$ and $p_n$? In other words, is it possible for this expression to be less than 0?
+
+$$s_n = s_0 \prod\limits_{i=1}^n (2-\frac{P_n}{P_{n-1}})$$
+
+I haven't thought of a way to prove that analytically, but perhaps we can get a sense of the likelihood of this happening by doing a thousand monte-carlo simulations, where 
+
